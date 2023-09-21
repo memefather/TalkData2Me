@@ -6,10 +6,13 @@ import openai
 import plotly.express as px
 import plotly.graph_objs as go
 import numpy as np
-import re
-from dateutil.parser import parse
-import traceback
-
+#import re
+#from dateutil.parser import parse
+#import traceback
+from langchain.llms import OpenAI
+from langchain.agents import create_pandas_dataframe_agent
+from langchain.chat_models import ChatOpenAI
+from langchain.agents.agent_types import AgentType
 
 footer_html = """
     <div class="footer">
@@ -101,11 +104,11 @@ def extract_code(gpt_response):
 
 
 # wide layout
-st.set_page_config(page_icon="🤖", page_title="Ask CSV")
+st.set_page_config(page_icon="🤖", page_title="TalkData2Me")
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
-st.title("ASK CSV 🤖 (GPT-powered)")
-st.header('Use Natural Language to Query Your Data')
+st.title("TalkData2Me 🤖")
+st.header('Use LLM to Understand Your Data 🧠')
 
 uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
 
