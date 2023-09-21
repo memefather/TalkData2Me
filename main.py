@@ -111,7 +111,7 @@ elif uploaded_file:
     prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
     
 
-    audio_bytes = audio_recorder()
+    audio_bytes = audio_recorder(pause_threshold=3.0)
     if audio_bytes:
         st.audio(audio_bytes, format="audio/wav")
     
