@@ -70,11 +70,11 @@ st.markdown(page_bg_img, unsafe_allow_html=True)
 st.title("TalkData2Me 🤖")
 st.header('🧠 Use LLM to Understand Your Data 🦾')
 
-uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+uploaded_file = st.file_uploader("Upload your data", type=["csv"])
 
 if uploaded_file is None:
     st.info(f"""
-                👆 Upload a .csv file first. Sample to try: [sample_data.csv](https://docs.google.com/spreadsheets/d/e/2PACX-1vTeB7_jzJtacH3XrFh553m9ahL0e7IIrTxMhbPtQ8Jmp9gCJKkU624Uk1uMbCEN_-9Sf7ikd1a85wIK/pub?gid=0&single=true&output=csv)
+                👆 Upload a .csv file here. A sample to get you started: [sample_data.csv](https://drive.google.com/uc?export=download&id=10ENm4nZFZrUGnLmv_Esph2SXBRmF0ZNS)
                 """)
 
 elif uploaded_file:
