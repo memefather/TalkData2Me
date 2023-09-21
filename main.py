@@ -79,8 +79,6 @@ elif uploaded_file:
 
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
-
-    user_input = st.text_input("Or, ask your own question")
     
     if prompt := st.text_input("Talk to your data! Clearly describe your question in simple terms."):
         st.chat_message("user").write(prompt)
