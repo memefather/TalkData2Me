@@ -10,6 +10,7 @@ import tabulate
 import matplotlib
 from audio_recorder_streamlit import audio_recorder
 import assemblyai as aai
+from audiorecorder import audiorecorder
 
 # replace with your API token
 aai.settings.api_key = st.secrets["AAI_KEY"]
@@ -113,13 +114,15 @@ elif uploaded_file:
         st.table(df.head())
     
     prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
-    container = st.empty()
+    audio = audiorecorder("Click to record", "Click to stop recording")
 
-    audio_bytes = audio_recorder(pause_threshold=3.0)
-    if audio_bytes:
-        container.audio(audio_bytes, format="audio/wav")
+    #audio_bytes = audio_recorder(pause_threshold=3.0)
+    if not audio.empty():
+        st.audio(audio.export().read())
+        audio.export("audio.wav", format="wav")
+        #st.audio(audio_bytes, format="audio/wav")
         transcriber = aai.Transcriber()
-        transcript = transcriber.transcribe(audio_bytes)
+        transcript = transcriber.transcribe("audio.wav")
         st.write(transcript)
 
     if prompt != None and st.button('Ask!'):
