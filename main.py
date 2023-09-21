@@ -123,7 +123,7 @@ elif uploaded_file:
             file.write(audio_bytes)
         transcriber = aai.Transcriber()
         transcript = transcriber.transcribe("sound.wav")
-        st.write(transcript)
+        st.write(transcript.text)
 
     if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
