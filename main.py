@@ -7,6 +7,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.agents.agent_types import AgentType
 from langchain.callbacks import StreamlitCallbackHandler
 import tabulate
+import matplotlib
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
