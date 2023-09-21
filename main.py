@@ -109,11 +109,11 @@ elif uploaded_file:
         st.table(df.head())
     
     prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
-    
+    container = st.empty()
 
     audio_bytes = audio_recorder(pause_threshold=3.0)
     if audio_bytes:
-        st.audio(audio_bytes, format="audio/wav")
+        container.audio(audio_bytes, format="audio/wav")
     
     if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
