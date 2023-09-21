@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import openai
-import numpy as np
 from langchain.llms import OpenAI
 from langchain.agents import create_pandas_dataframe_agent
 from langchain.chat_models import ChatOpenAI
