@@ -89,12 +89,17 @@ elif uploaded_file:
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
     
-    if prompt := st.text_input("Talk to your data! Clearly describe your question in simple terms."):
+    prompt = st.text_input("Talk to your data! Clearly describe your question in simple terms.")
+    
+    if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
         with st.chat_message("assistant"):
             st_callback = StreamlitCallbackHandler(st.container())
-            response = agent.run(prompt, callbacks=[st_callback])
-            st.write(response)
+            try:
+                response = agent.run(prompt, callbacks=[st_callback])
+                st.write(response)
+            except:
+                st.markdown('Clarify your question and try again!')
 
 # footer
 st.markdown(footer_html, unsafe_allow_html=True)
