@@ -4,4 +4,4 @@ openai
 langchain
 tabulate
 matplotlib
-st_audiorec
+streamlit-audiorec
