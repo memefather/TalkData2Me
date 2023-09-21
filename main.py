@@ -120,8 +120,7 @@ elif uploaded_file:
     if audio_bytes:
         st.audio(audio_bytes, format="audio/wav")
         with open('sound.wav', 'wb') as file:
-            wav_data = audio_bytes.get_wav_data()
-            file.write(wav_data)
+            file.write(audio_bytes)
         transcriber = aai.Transcriber()
         transcript = transcriber.transcribe("sound.wav")
         st.write(transcript)
