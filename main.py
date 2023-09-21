@@ -118,7 +118,7 @@ elif uploaded_file:
         st.table(df.head())
     
     prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.", st.session_state.question)
-    col1, col2 = st.columns([.7,.3])
+    col1, col2 = st.columns([.75,.25])
     with col1:
         if st.button('Ask!'):
             st.session_state.ask = True
