@@ -118,11 +118,10 @@ elif uploaded_file:
     audio_bytes = audio_recorder(pause_threshold=3.0)
     if audio_bytes:
         container.audio(audio_bytes, format="audio/wav")
+        transcriber = aai.Transcriber()
+        transcript = transcriber.transcribe(audio_bytes)
+        st.write(transcript)
 
-    transcriber = aai.Transcriber()
-    transcript = transcriber.transcribe(audio_bytes)
-    st.write(transcript)
-    
     if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
         with st.chat_message("assistant"):
