@@ -5,3 +5,4 @@ langchain
 tabulate
 matplotlib
 audio-recorder-streamlit
+assemblyai
