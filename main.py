@@ -11,7 +11,6 @@ openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # wide layout
 st.set_page_config(page_icon="🤖", page_title="TalkData2Me")
-st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st_callback = StreamlitCallbackHandler(st.container())
 
@@ -56,7 +55,7 @@ background: rgba(0,0,0,0);
 </style>
 """
 
-
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title("TalkData2Me 🤖")
 st.header('Use LLM to Understand Your Data 🧠')
