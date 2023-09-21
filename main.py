@@ -11,6 +11,7 @@ import matplotlib
 from audio_recorder_streamlit import audio_recorder
 import assemblyai as aai
 from audiorecorder import audiorecorder
+import ffmpeg
 
 # replace with your API token
 aai.settings.api_key = st.secrets["AAI_KEY"]
