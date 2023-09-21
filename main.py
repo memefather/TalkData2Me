@@ -110,9 +110,10 @@ elif uploaded_file:
     
     prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
     
-    wav_audio_data = st_audiorec()
-    if wav_audio_data is not None:
-        st.audio(wav_audio_data, format='audio/wav')
+
+    audio_bytes = audio_recorder()
+    if audio_bytes:
+        st.audio(audio_bytes, format="audio/wav")
     
     if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
