@@ -50,6 +50,23 @@ footer_html = """
     </div>
 """
 
+page_bg_img = f"""
+<style>
+[data-testid="stAppViewContainer"] > .main {{
+background-image: url("https://i.postimg.cc/Px6t2qSn/Zz0z-ZTli-Mj-Q4-Mzhl-NGEx-MWVi-Ym-Ji-Mj-Fi-ZTI2-ZWNm-N2-Mz-ZA.jpg");
+background-size: cover;
+background-position: center center;
+background-repeat: no-repeat;
+background-attachment: local;
+}}
+[data-testid="stHeader"] {{
+background: rgba(0,0,0,0);
+}}
+</style>
+"""
+
+st.markdown(page_bg_img, unsafe_allow_html=True)
+
 st.title("TalkData2Me 🤖")
 st.header('🧠 Use LLM to Understand Your Data 🦾')
 
@@ -89,7 +106,7 @@ elif uploaded_file:
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
     
-    prompt = st.text_input("Talk to your data! Clearly describe your question in simple terms.")
+    prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
     
     if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
