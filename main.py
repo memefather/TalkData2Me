@@ -8,6 +8,7 @@ from langchain.agents.agent_types import AgentType
 from langchain.callbacks import StreamlitCallbackHandler
 import tabulate
 import matplotlib
+from st_audiorec import st_audiorec
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
