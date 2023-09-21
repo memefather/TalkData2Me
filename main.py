@@ -72,7 +72,7 @@ background: rgba(0,0,0,0);
 """
 
 if 'ask' not in st.session_state:
-    st.session_state['ask'] = False
+    st.session_state.ask = False
 if 'question' not in st.session_state:
     st.session_state.question = ''
 
