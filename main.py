@@ -115,10 +115,15 @@ elif uploaded_file:
     prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
 
     audio_bytes = audio_recorder(pause_threshold=2.0)
+
+    
     if audio_bytes:
         st.audio(audio_bytes, format="audio/wav")
+        with open('sound.wav', 'wb') as file:
+            wav_data = audio_bytes.get_wav_data()
+            file.write(wav_data)
         transcriber = aai.Transcriber()
-        transcript = transcriber.transcribe("audio.wav")
+        transcript = transcriber.transcribe("sound.wav")
         st.write(transcript)
 
     if prompt != None and st.button('Ask!'):
