@@ -9,6 +9,10 @@ from langchain.callbacks import StreamlitCallbackHandler
 import tabulate
 import matplotlib
 from audio_recorder_streamlit import audio_recorder
+import assemblyai as aai
+
+# replace with your API token
+aai.settings.api_key = st.secrets["AAI_KEY"]
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
@@ -114,6 +118,10 @@ elif uploaded_file:
     audio_bytes = audio_recorder(pause_threshold=3.0)
     if audio_bytes:
         container.audio(audio_bytes, format="audio/wav")
+
+    transcriber = aai.Transcriber()
+    transcript = transcriber.transcribe(audio_bytes)
+    st.write(transcript)
     
     if prompt != None and st.button('Ask!'):
         st.chat_message("user").write(prompt)
