@@ -71,6 +71,11 @@ background: rgba(0,0,0,0);
 </style>
 """
 
+if 'ask' not in st.session_state:
+    st.session_state['ask'] = False
+if 'question' not in st.session_state:
+    st.session_state.question = ''
+
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title("TalkData2Me 🤖")
@@ -112,20 +117,25 @@ elif uploaded_file:
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
     
-    prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.")
-
-    audio_bytes = audio_recorder(pause_threshold=2.0)
-
+    prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.", st.session_state.question)
+    col1, col2 = st.columns([.7,.3])
+    with col1:
+        if st.button('Ask!'):
+            st.session_state.ask = True
+    with col2:
+        audio_bytes = audio_recorder(pause_threshold=2.0)
+    
+    transcriber = aai.Transcriber()
     
     if audio_bytes:
-        st.audio(audio_bytes, format="audio/wav")
         with open('sound.wav', 'wb') as file:
             file.write(audio_bytes)
-        transcriber = aai.Transcriber()
         transcript = transcriber.transcribe("sound.wav")
-        st.write(transcript.text)
+        st.session_state.question = transcript.text
 
-    if prompt != None and st.button('Ask!'):
+
+    
+    if prompt != None and st.session_state.ask :
         st.chat_message("user").write(prompt)
         with st.chat_message("assistant"):
             st_callback = StreamlitCallbackHandler(st.container())
