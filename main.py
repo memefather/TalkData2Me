@@ -136,8 +136,8 @@ elif uploaded_file:
             prompt = transcript.text
     
             if prompt != None :
-                st.chat_message("user", avatar=🤘).write(prompt)
-                with st.chat_message("assistant", avatar=🎸):
+                st.chat_message("user", avatar="🤘").write(prompt)
+                with st.chat_message("assistant", avatar="🎸"):
                     st_callback = StreamlitCallbackHandler(st.container())
                     try:
                         response = agent.run(prompt, callbacks=[st_callback])
