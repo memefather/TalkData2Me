@@ -27,8 +27,6 @@ if 'question' not in st.session_state:
 with st.sidebar:
     st.subheader('TypeData2Me:')
     prompt = st.text_area("Clearly describe your question in simple terms.")
-    if st.button('Ask!'):
-        st.session_state.ask = True
 
 st.markdown(
     """
@@ -140,9 +138,8 @@ elif uploaded_file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
-        st.session_state.ask = True
     
-    if prompt != None and st.session_state.ask :
+    if prompt != None and st.button('Ask!') :
         st.chat_message("user").write(prompt)
         with st.chat_message("assistant"):
             st_callback = StreamlitCallbackHandler(st.container())
@@ -151,7 +148,7 @@ elif uploaded_file:
                 st.write(response)
             except:
                 st.markdown('Clarify your question and try again!')
-            st.session_state.ask = False
+            #st.session_state.ask = False
 
 
 
