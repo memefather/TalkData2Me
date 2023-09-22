@@ -11,6 +11,7 @@ import matplotlib
 from audio_recorder_streamlit import audio_recorder
 import assemblyai as aai
 import base64
+import requests
 
 def autoplay_audio(file_path: str):
     with open(file_path, "rb") as f:
@@ -18,13 +19,34 @@ def autoplay_audio(file_path: str):
         b64 = base64.b64encode(data).decode()
         md = f"""
             <audio controls autoplay="true">
-            <source src="data:audio/mp3;base64,{b64}" type="audio/wav">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             </audio>
             """
         st.markdown(
             md,
             unsafe_allow_html=True,
         )
+
+def text_to_voice(text):
+    url = "https://play.ht/api/v2/tts"
+    
+    payload = {
+        "text": text,
+        "voice": "hudson",
+        "quality": "medium",
+        "output_format": "mp3",
+        "speed": 1,
+        "sample_rate": 24000
+    }
+    headers = {
+        "accept": "*/*",
+        "content-type": "application/json",
+        "AUTHORIZATION": "5e7ef30c3a29458c86c0cd2de54db604",
+        "X-USER-ID": "sNJp3iUlcnfRZYdBp0NpTUF6zJ23"
+    }
+    
+    response = requests.post(url, json=payload, headers=headers)
+    return(response.text[response.text.find("url")+ 6 : response.text.find("mp3")+ 3])
 
 # Assembly API token
 aai.settings.api_key = st.secrets["AAI_KEY"]
@@ -160,12 +182,13 @@ elif uploaded_file:
         if st.session_state.ask == True:
             prompt = st.session_state.question
         st.chat_message("user", avatar="🤘").write(prompt)
-        autoplay_audio("sound.wav")
         with st.chat_message("assistant", avatar="🎸"):
             st_callback = StreamlitCallbackHandler(st.container())
             try:
                 response = agent.run(prompt, callbacks=[st_callback])
                 st.write(response)
+                voiceurl = text_to_voice(response)
+                autoplay_audio("sound.wav")
                 st.session_state.question = ''
                 st.session_state.ask = False
                 prompt = None
