@@ -52,7 +52,7 @@ aai.settings.api_key = st.secrets["AAI_KEY"]
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # wide layout
-st.set_page_config(page_icon="🤖", page_title="TalkData2Me",initial_sidebar_state='collapsed')
+st.set_page_config(page_icon="🤘", page_title="TalkData2Me",initial_sidebar_state='collapsed')
 
 if 'ask' not in st.session_state:
     st.session_state.ask = False
@@ -171,25 +171,35 @@ elif uploaded_file:
         st.write("Please click sumbit only once and wait for processing ⏳")
     
     if audio_bytes != '' and st.button('Submit Question'):
-        with open('sound.wav', 'wb') as file:
-            file.write(audio_bytes)
-        transcript = transcriber.transcribe("sound.wav")
-        prompt = transcript.text
+        with st.spinner('Paying for API calls...'):
+            with open('sound.wav', 'wb') as file:
+                file.write(audio_bytes)
+            transcript = transcriber.transcribe("sound.wav")
+            prompt = transcript.text
 
     if prompt != None or st.session_state.ask:
         if st.session_state.ask == True:
             prompt = st.session_state.question
-        st.chat_message("user", avatar="🤘").write(prompt)
-        with st.chat_message("assistant", avatar="🎸"):
+        st.chat_message("user", avatar="🎸").write(prompt)
+        with st.chat_message("assistant", avatar="🤖"):
             st_callback = StreamlitCallbackHandler(st.container())
             try:
-                response = agent.run(prompt, callbacks=[st_callback])
-                write(response)
-                voiceurl = text_to_voice(response)
-                autoplay_audio(voiceurl)
-                st.session_state.question = ''
-                st.session_state.ask = False
-                prompt = None
+                if prompt == 'Lock the cellar door':
+                    egg = 'And baby, Talk data to me.'
+                    eggurl = text_to_voice(egg)
+                    write(egg)
+                    autoplay_audio(eggurl)
+                    st.session_state.question = ''
+                    st.session_state.ask = False
+                    prompt = None
+                else:
+                    response = agent.run(prompt, callbacks=[st_callback])
+                    voiceurl = text_to_voice(response)
+                    write(response)
+                    autoplay_audio(voiceurl)
+                    st.session_state.question = ''
+                    st.session_state.ask = False
+                    prompt = None
             except:
                 write('Clarify your question and try again!')
                 st.session_state.question = ''
