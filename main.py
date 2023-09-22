@@ -26,7 +26,10 @@ if 'question' not in st.session_state:
 
 with st.sidebar:
     st.subheader('TypeData2Me:')
-    prompt = st.text_area("Clearly describe your question in simple terms.")
+    p2 = st.text_area("Clearly describe your question in simple terms.")
+    if p2 != '' and st.button('Ask'):
+        st.session_state.ask = True
+        st.session_state.question = p2
 
 st.markdown(
     """
@@ -137,16 +140,24 @@ elif uploaded_file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
-        st.chat_message("user", avatar="🤘").write(prompt)
 
-        if prompt != None:
-            with st.chat_message("assistant", avatar="🎸"):
-                st_callback = StreamlitCallbackHandler(st.container())
-                try:
-                    response = agent.run(prompt, callbacks=[st_callback])
-                    st.write(response)
-                except:
-                    st.markdown('Clarify your question and try again!')
+    if prompt != None or st.session_state.ask:
+        if st.session_state.ask == True:
+            prompt = st.session_state.question
+        st.chat_message("user", avatar="🤘").write(prompt)
+        with st.chat_message("assistant", avatar="🎸"):
+            st_callback = StreamlitCallbackHandler(st.container())
+            try:
+                response = agent.run(prompt, callbacks=[st_callback])
+                st.write(response)
+                st.session_state.question = ''
+                st.session_state.ask = False
+                prompt = None
+            except:
+                st.markdown('Clarify your question and try again!')
+                st.session_state.question = ''
+                st.session_state.ask = False
+                prompt = None
 
 
 
