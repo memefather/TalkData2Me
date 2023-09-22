@@ -126,7 +126,7 @@ elif uploaded_file:
     audio_bytes = ''
     col1, col2 ,col3 = st.columns([2.3,1,2])
     with col1:
-        st.write("Please click the icon until a solid red mic to start speaking. 💬 Click Sumbit after mic turns black.")
+        st.write("Please click the icon until a solid red mic to start speaking. 💬 \nClick Sumbit after mic turns black.")
     with col2:
         audio_bytes = audio_recorder(text="", pause_threshold=2.0)
     with col3:
