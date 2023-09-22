@@ -127,7 +127,7 @@ elif uploaded_file:
         st.table(df.head())
     transcriber = aai.Transcriber()
     audio_bytes = ''
-    col1, col2 ,col3 = st.columns([2.3,.3,2.3])
+    col1, col2 ,col3 = st.columns([2.3,.35,2.3])
     with col1:
         st.write("Please click the icon until a solid red mic to start speaking. 💬 \nClick Sumbit after mic turns black.👇")
     with col2:
