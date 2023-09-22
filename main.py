@@ -27,7 +27,7 @@ prompt = None
 with st.sidebar:
     st.subheader('TypeData2Me:')
     p2 = st.text_area("Clearly describe your question in simple terms.")
-    if p2 != '' and st.button('Ask'):
+    if st.button('Ask') and p2 != '':
         st.session_state.ask = True
         st.session_state.question = p2
 
