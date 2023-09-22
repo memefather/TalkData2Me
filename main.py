@@ -188,7 +188,7 @@ elif uploaded_file:
                 response = agent.run(prompt, callbacks=[st_callback])
                 st.write(response)
                 voiceurl = text_to_voice(response)
-                autoplay_audio("sound.wav")
+                autoplay_audio(voiceurl)
                 st.session_state.question = ''
                 st.session_state.ask = False
                 prompt = None
