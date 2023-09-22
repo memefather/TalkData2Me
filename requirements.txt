@@ -6,6 +6,4 @@ tabulate
 matplotlib
 audio-recorder-streamlit
 assemblyai
-streamlit-audiorecorder
-ffmpeg
 streamlit-extras
