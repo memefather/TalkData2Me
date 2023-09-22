@@ -184,7 +184,7 @@ elif uploaded_file:
         with st.chat_message("assistant", avatar="🤖"):
             st_callback = StreamlitCallbackHandler(st.container())
             try:
-                if prompt == 'Lock the cellar door.' or 'Lock the cellar door' or 'lock the cellar door.' or 'lock the cellar door':
+                if prompt == 'Lock the cellar door.' or prompt =='Lock the cellar door' or prompt =='lock the cellar door.' or prompt == 'lock the cellar door':
                     egg = 'And baby, Talk data to me.'
                     eggurl = text_to_voice(egg)
                     write(egg)
