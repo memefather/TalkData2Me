@@ -10,8 +10,23 @@ import tabulate
 import matplotlib
 from audio_recorder_streamlit import audio_recorder
 import assemblyai as aai
+import base64
 
-# replace with your API token
+def autoplay_audio(file_path: str):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        md = f"""
+            <audio controls autoplay="true">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(
+            md,
+            unsafe_allow_html=True,
+        )
+
+# Assembly API token
 aai.settings.api_key = st.secrets["AAI_KEY"]
 
 openai.api_key = st.secrets["OPENAI_API_KEY"]
@@ -145,6 +160,7 @@ elif uploaded_file:
         if st.session_state.ask == True:
             prompt = st.session_state.question
         st.chat_message("user", avatar="🤘").write(prompt)
+        autoplay_audio("sound.wav")
         with st.chat_message("assistant", avatar="🎸"):
             st_callback = StreamlitCallbackHandler(st.container())
             try:
