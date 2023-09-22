@@ -12,6 +12,7 @@ from audio_recorder_streamlit import audio_recorder
 import assemblyai as aai
 import base64
 import requests
+from streamlit_extras.streaming_write import write
 
 def autoplay_audio(url):
     md = f"""
@@ -163,11 +164,11 @@ elif uploaded_file:
     audio_bytes = ''
     col1, col2 ,col3 = st.columns([2.3,.4,2.3])
     with col1:
-        st.write("Please click the icon until a solid red mic to start speaking. 💬 \nClick Sumbit after mic turns black.👇")
+        st.write("Please click the icon until a solid red mic to start speaking. 💬 Click Sumbit after mic turns black.👇")
     with col2:
         audio_bytes = audio_recorder(text="", pause_threshold=2.0)
     with col3:
-        st.write("\n")
+        st.write("Please click sumbit only once and wait for processing ⏳")
     
     if audio_bytes != '' and st.button('Submit Question'):
         with open('sound.wav', 'wb') as file:
@@ -183,14 +184,14 @@ elif uploaded_file:
             st_callback = StreamlitCallbackHandler(st.container())
             try:
                 response = agent.run(prompt, callbacks=[st_callback])
-                st.write(response)
+                write(response)
                 voiceurl = text_to_voice(response)
                 autoplay_audio(voiceurl)
                 st.session_state.question = ''
                 st.session_state.ask = False
                 prompt = None
             except:
-                st.markdown('Clarify your question and try again!')
+                write('Clarify your question and try again!')
                 st.session_state.question = ''
                 st.session_state.ask = False
                 prompt = None
