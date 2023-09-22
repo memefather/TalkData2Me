@@ -129,23 +129,25 @@ elif uploaded_file:
         st.write("\n")
     with col2:
         audio_bytes = audio_recorder(text="", pause_threshold=2.0)
-        if audio_bytes != '' and st.button('Ask'):
-            with open('sound.wav', 'wb') as file:
-                file.write(audio_bytes)
-            transcript = transcriber.transcribe("sound.wav")
-            prompt = transcript.text
-    
-            if prompt != None :
-                st.chat_message("user", avatar="🤘").write(prompt)
-                with st.chat_message("assistant", avatar="🎸"):
-                    st_callback = StreamlitCallbackHandler(st.container())
-                    try:
-                        response = agent.run(prompt, callbacks=[st_callback])
-                        st.write(response)
-                    except:
-                        st.markdown('Clarify your question and try again!')
     with col3:
         st.write("\n")
+        
+    if audio_bytes != '' :
+        with open('sound.wav', 'wb') as file:
+            file.write(audio_bytes)
+        transcript = transcriber.transcribe("sound.wav")
+        prompt = transcript.text
+        st.chat_message("user", avatar="🤘").write(prompt)
+
+        if prompt != None and st.button('Ask'):
+            with st.chat_message("assistant", avatar="🎸"):
+                st_callback = StreamlitCallbackHandler(st.container())
+                try:
+                    response = agent.run(prompt, callbacks=[st_callback])
+                    st.write(response)
+                except:
+                    st.markdown('Clarify your question and try again!')
+
 
 
 
