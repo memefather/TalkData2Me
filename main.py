@@ -66,6 +66,8 @@ footer_html = """
         If you like this app, consider <a href="https://www.buymeacoffee.com/digitalmagic" target="_blank">buying me a coffee</a> ☕
     </div>
 """
+# footer
+st.markdown(footer_html, unsafe_allow_html=True)
 
 page_bg_img = f"""
 <style>
@@ -151,8 +153,7 @@ elif uploaded_file:
                 st.markdown('Clarify your question and try again!')
             st.session_state.ask = False
 
-# footer
-st.markdown(footer_html, unsafe_allow_html=True)
+
 
 
 
