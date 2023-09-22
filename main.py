@@ -85,7 +85,7 @@ background: rgba(0,0,0,0);
 </style>
 """
 
-#st.markdown(page_bg_img, unsafe_allow_html=True)
+st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title("TalkData2Me 🤖")
 st.header('🧠 Use LLM to Understand Your Data 🦾')
