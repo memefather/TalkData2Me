@@ -127,7 +127,7 @@ elif uploaded_file:
     with col1:
         st.write("\n")
     with col2:
-        audio_bytes = audio_recorder(pause_threshold=2.0)
+        audio_bytes = audio_recorder(text="", pause_threshold=2.0)
     with col3:
         st.write("\n")
     
@@ -138,6 +138,7 @@ elif uploaded_file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
+        st.write(prompt)
     
     if prompt != None and st.button('Ask!') :
         st.chat_message("user").write(prompt)
