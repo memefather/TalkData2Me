@@ -138,8 +138,9 @@ elif uploaded_file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
+        st.session_state.ask = True
     
-    if prompt != None or st.session_state.ask :
+    if prompt != None and st.session_state.ask :
         st.chat_message("user").write(prompt)
         with st.chat_message("assistant"):
             st_callback = StreamlitCallbackHandler(st.container())
