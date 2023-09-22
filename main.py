@@ -122,33 +122,30 @@ elif uploaded_file:
 
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
-
+    transcriber = aai.Transcriber()
     audio_bytes = ''
     col1, col2 ,col3 = st.columns([2.3,1,2])
     with col1:
         st.write("\n")
     with col2:
         audio_bytes = audio_recorder(text="", pause_threshold=2.0)
+        if audio_bytes != '' and st.button('Ask'):
+            with open('sound.wav', 'wb') as file:
+                file.write(audio_bytes)
+            transcript = transcriber.transcribe("sound.wav")
+            prompt = transcript.text
+    
+            if prompt != None :
+                st.chat_message("user", avatar=🤘).write(prompt)
+                with st.chat_message("assistant", avatar=🎸):
+                    st_callback = StreamlitCallbackHandler(st.container())
+                    try:
+                        response = agent.run(prompt, callbacks=[st_callback])
+                        st.write(response)
+                    except:
+                        st.markdown('Clarify your question and try again!')
     with col3:
         st.write("\n")
-    
-    transcriber = aai.Transcriber()
-    
-    if audio_bytes != '' and st.button('Ask'):
-        with open('sound.wav', 'wb') as file:
-            file.write(audio_bytes)
-        transcript = transcriber.transcribe("sound.wav")
-        prompt = transcript.text
-
-        if prompt != None :
-            st.chat_message("user").write(prompt)
-            with st.chat_message("assistant"):
-                st_callback = StreamlitCallbackHandler(st.container())
-                try:
-                    response = agent.run(prompt, callbacks=[st_callback])
-                    st.write(response)
-                except:
-                    st.markdown('Clarify your question and try again!')
 
 
 
