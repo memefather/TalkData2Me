@@ -123,11 +123,13 @@ elif uploaded_file:
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
         
-    col1, col2 = st.columns([.75,.25])
+    col1, col2 ,col3 = st.columns([1.5,1,1.5])
     with col1:
-
+        st.write("\n")
     with col2:
         audio_bytes = audio_recorder(pause_threshold=2.0)
+    with col3:
+        st.write("\n")
     
     transcriber = aai.Transcriber()
     
