@@ -82,7 +82,7 @@ background: rgba(0,0,0,0);
 </style>
 """
 
-st.markdown(page_bg_img, unsafe_allow_html=True)
+#st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title("TalkData2Me 🤖")
 st.header('🧠 Use LLM to Understand Your Data 🦾')
@@ -123,7 +123,7 @@ elif uploaded_file:
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
         
-    col1, col2 ,col3 = st.columns([1.5,1,1.5])
+    col1, col2 ,col3 = st.columns([2,1,2])
     with col1:
         st.write("\n")
     with col2:
@@ -133,23 +133,21 @@ elif uploaded_file:
     
     transcriber = aai.Transcriber()
     
-    if audio_bytes:
+    if audio_bytes and st.button('Stop'):
         with open('sound.wav', 'wb') as file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
         st.write(prompt)
-    
-    if prompt != None and st.button('Ask!') :
-        st.chat_message("user").write(prompt)
-        with st.chat_message("assistant"):
-            st_callback = StreamlitCallbackHandler(st.container())
-            try:
-                response = agent.run(prompt, callbacks=[st_callback])
-                st.write(response)
-            except:
-                st.markdown('Clarify your question and try again!')
-            #st.session_state.ask = False
+        if prompt != None :
+            st.chat_message("user").write(prompt)
+            with st.chat_message("assistant"):
+                st_callback = StreamlitCallbackHandler(st.container())
+                try:
+                    response = agent.run(prompt, callbacks=[st_callback])
+                    st.write(response)
+                except:
+                    st.markdown('Clarify your question and try again!')
 
 
 
