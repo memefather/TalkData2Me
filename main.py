@@ -17,7 +17,18 @@ aai.settings.api_key = st.secrets["AAI_KEY"]
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # wide layout
-st.set_page_config(page_icon="🤖", page_title="TalkData2Me")
+st.set_page_config(page_icon="🤖", page_title="TalkData2Me",initial_sidebar_state='collapsed')
+
+if 'ask' not in st.session_state:
+    st.session_state.ask = False
+if 'question' not in st.session_state:
+    st.session_state.question = ''
+
+with st.sidebar:
+    st.subheader('TypeData2Me:')
+    prompt = st.text_area("Clearly describe your question in simple terms.")
+    if st.button('Ask!'):
+        st.session_state.ask = True
 
 st.markdown(
     """
@@ -71,11 +82,6 @@ background: rgba(0,0,0,0);
 </style>
 """
 
-if 'ask' not in st.session_state:
-    st.session_state.ask = False
-if 'question' not in st.session_state:
-    st.session_state.question = ''
-
 st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title("TalkData2Me 🤖")
@@ -116,12 +122,10 @@ elif uploaded_file:
 
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
-    
-    prompt = st.text_area("Talk to your data! Clearly describe your question in simple terms.", st.session_state.question)
+        
     col1, col2 = st.columns([.75,.25])
     with col1:
-        if st.button('Ask!'):
-            st.session_state.ask = True
+
     with col2:
         audio_bytes = audio_recorder(pause_threshold=2.0)
     
@@ -131,11 +135,9 @@ elif uploaded_file:
         with open('sound.wav', 'wb') as file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
-        st.session_state.question = transcript.text
-
-
+        prompt = transcript.text
     
-    if prompt != None and st.session_state.ask :
+    if prompt != None or st.session_state.ask :
         st.chat_message("user").write(prompt)
         with st.chat_message("assistant"):
             st_callback = StreamlitCallbackHandler(st.container())
@@ -144,6 +146,7 @@ elif uploaded_file:
                 st.write(response)
             except:
                 st.markdown('Clarify your question and try again!')
+            st.session_state.ask = False
 
 # footer
 st.markdown(footer_html, unsafe_allow_html=True)
