@@ -124,7 +124,7 @@ elif uploaded_file:
         st.table(df.head())
 
     audio_bytes = ''
-    col1, col2 ,col3 = st.columns([2,1,2])
+    col1, col2 ,col3 = st.columns([2.3,1,2])
     with col1:
         st.write("\n")
     with col2:
@@ -134,12 +134,12 @@ elif uploaded_file:
     
     transcriber = aai.Transcriber()
     
-    if audio_bytes and st.button('Stop'):
+    if audio_bytes != '' and st.button('Ask'):
         with open('sound.wav', 'wb') as file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
-        st.write(prompt)
+
         if prompt != None :
             st.chat_message("user").write(prompt)
             with st.chat_message("assistant"):
