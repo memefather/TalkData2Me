@@ -122,7 +122,8 @@ elif uploaded_file:
 
     with st.expander("Preview of the uploaded file"):
         st.table(df.head())
-        
+
+    audio_bytes = ''
     col1, col2 ,col3 = st.columns([2,1,2])
     with col1:
         st.write("\n")
