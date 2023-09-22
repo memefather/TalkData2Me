@@ -131,15 +131,15 @@ elif uploaded_file:
         audio_bytes = audio_recorder(text="", pause_threshold=2.0)
     with col3:
         st.write("\n")
-        
-    if audio_bytes != '' :
+    
+    if audio_bytes != '' and st.button('Stop Recording'):
         with open('sound.wav', 'wb') as file:
             file.write(audio_bytes)
         transcript = transcriber.transcribe("sound.wav")
         prompt = transcript.text
         st.chat_message("user", avatar="🤘").write(prompt)
 
-        if prompt != None and st.button('Ask'):
+        if prompt != None:
             with st.chat_message("assistant", avatar="🎸"):
                 st_callback = StreamlitCallbackHandler(st.container())
                 try:
