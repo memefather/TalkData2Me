@@ -26,7 +26,7 @@ def autoplay_audio(file_path: str):
             md,
             unsafe_allow_html=True,
         )
-@st.cache
+@st.cache_data
 def text_to_voice(text):
     url = "https://play.ht/api/v2/tts"
     
