@@ -171,7 +171,7 @@ elif uploaded_file:
         st.write("Please click sumbit only once and wait for processing ⏳")
     
     if audio_bytes != '' and st.button('Submit Question'):
-        with st.spinner('Paying for API calls...'):
+        with st.spinner('Paying for server fees... 💸'):
             with open('sound.wav', 'wb') as file:
                 file.write(audio_bytes)
             transcript = transcriber.transcribe("sound.wav")
